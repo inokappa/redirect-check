@@ -1,0 +1,4 @@
+# PATH TARGET STATUS_CODE
+/yahoo/ https://yahoo.co.jp/ 301
+/google/ https://google.com/ 301
+/ore/ https://oreno.tools/ 301

@@ -1,0 +1,57 @@
+let baseUrl, expect, file, fs, line, request;
+expect = require('Chai').expect;
+request = require('request');
+fs = require('fs');
+baseUrl = 'https://sp.yamap.com';
+file = fs.readFileSync('../_site/_redirects.test', { encoding: 'UTF-8' }).split("\n");
+
+target_urls = function*(file) {
+  let line, recirectUri, target, uri, _i, line_len;
+  for (_i = 0, line_len = file.length; _i < line_len; _i++) {
+    line = file[_i];
+    if (!line.startsWith('#')) {
+      target = line.split(' ');
+      if (target[0].length > 0 && !target[0].startsWith('https://')) {
+        uri = baseUrl + target[0];
+        recirectUri = target[1];
+        statusCode = target[2];
+        yield {
+          uri: uri,
+          recirectUri: recirectUri,
+          statusCode: statusCode
+        };
+      }
+    }
+  }
+  return null;
+};
+
+describe('redirect 301 checks', function() {
+  let data;
+  for (data of target_urls(file)) {
+    it('should return 301: ' + data.uri, function(done) {
+      request.get({
+        followRedirect: false,
+        uri: data.uri
+      }, function(err, res, body) {
+        expect(res.statusCode).to.equal(Number(data.statusCode));
+        done();
+      });
+    });
+  }
+});
+
+describe('redirected site 200 checks', function() {
+  let data;
+  for (data of target_urls(file)) {
+    it('should return 200: ' + data.uri + ' to ' + data.recirectUri, function(done) {
+      request.get({
+        followRedirect: true,
+        uri: data.uri,
+      }, function(err, res, body) {
+        expect(res.statusCode).to.equal(200);
+        done();
+      });
+    });
+  }
+});

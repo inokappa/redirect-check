@@ -1,0 +1,36 @@
+version: '3.7'
+
+x-networks: &common_networks
+  networks:
+    develop_net:
+
+services:
+  server:
+    image: node:latest
+    working_dir: /work
+    ports:
+      - "19090:19090"
+    networks:
+      develop_net:
+        ipv4_address: 10.0.102.10
+    volumes:
+      - .:/work
+    entrypoint: "node server/run.js"
+
+  checker:
+    image: node:latest
+    container_name: checker
+    working_dir: /work
+    <<: *common_networks
+    volumes:
+      - .:/work
+    command: "bash"
+    tty: true
+
+networks:
+  develop_net:
+    driver: bridge
+    ipam:
+     driver: default
+     config:
+       - subnet: 10.0.102.0/24

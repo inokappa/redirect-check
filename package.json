@@ -1,0 +1,19 @@
+{
+  "name": "redirect-tests",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "coffee-script": "^1.12.7",
+    "it-each": "^0.4.0",
+    "mocha": "^7.1.0",
+    "request": "^2.88.2",
+    "minimist": ">=1.2.2"
+  }
+}

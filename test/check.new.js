@@ -24,7 +24,7 @@ for (_i = 0, line_len = file.length; _i < line_len; _i++) {
 }
 
 describe('redirect 301 checks', function(){
-  it.each(URLs, 'Testing code of %s', ['uri'], function(element, done){
+  it.each(URLs, 'should return 301: %s', ['uri'], function(element, done){
     request.get({
       followRedirect: false,
       uri: element.uri,
@@ -36,7 +36,7 @@ describe('redirect 301 checks', function(){
 });
 
 describe('redirected site 200 checks', function(){
-  it.each(URLs, 'Testing code of %s', ['uri'], function(element, done){
+  it.each(URLs, 'should return 200: %s', ['uri'], function(element, done){
     request.get({
       followRedirect: true,
       uri: element.uri,
